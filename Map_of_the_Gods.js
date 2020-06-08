@@ -12,6 +12,9 @@ https://bl.ocks.org/mbostock/2206590
 
 Different Shapes
 https://bl.ocks.org/denisemauldin/1cacff932f3868aad2d7815384a0a6fa
+
+Add Link to Objects
+http://bl.ocks.org/d3noob/8150631
 ----------------------------------------------------------------------*/ 
 
 /*jslint browser: true*/
@@ -159,6 +162,11 @@ d3.json("countries.geo.json").then(function(json) {
      g.selectAll(".shapes")
 			.data(data)
 			.enter()
+            
+            // Add Wikipedia Link to circle or square object
+            .append("a")
+            .attr("xlink:href", function(d) {return d.linkwik;})
+            
 			.append(function(d){
                  console.log(d);
                  if (d.gender === "Female") {
@@ -180,7 +188,6 @@ d3.json("countries.geo.json").then(function(json) {
           .attr("cy", function(d) {
                 return projection([d.lon, d.lat])[1];})
           .attr("r", 2)
-    
          // Add tooltip so that it appears over mouseover on the circle
          .on('mouseover', function(d) {
 //            tooltip.transition()
