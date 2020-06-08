@@ -1,3 +1,19 @@
+/* ---------------------------------------------------------------------
+Nitya Davarapalli
+CSE 163
+Peru.js
+Referenced:
+
+Previous Project
+https://sureshlodha.github.io/CMPS165_Winter15_FinalProjects/MapOfGods/
+
+Click-To-Zoom
+https://bl.ocks.org/mbostock/2206590
+
+Different Shapes
+https://bl.ocks.org/denisemauldin/1cacff932f3868aad2d7815384a0a6fa
+----------------------------------------------------------------------*/ 
+
 /*jslint browser: true*/
 /*global d3*/
 
@@ -28,9 +44,6 @@ var svg = d3.select("#container")
 
 //Create secondary layer to canvas SVG
 var g = svg.append("g");
-
-//boolean variable for buttons?
-//var state = false;
 
 //Create tooltip to be used for information on circles
 var tooltip = d3.select("body")
@@ -103,8 +116,11 @@ d3.json("countries.geo.json").then(function(json) {
          .attr("d", path)
          // When a region is clicked on, call the clicked function to zoom in. 
          .on("click", clicked)
+            
          // set the boundary color in between countries
          .attr("id", "boundary")
+        
+         // set the colors for the regions
          .style("fill", function(d) {
             var country = d.properties.Location;
             if(country === "Mexico") {
@@ -136,7 +152,7 @@ d3.json("countries.geo.json").then(function(json) {
 //                return "#D3D3D3";}
                 return "rgb(213,222,217)";}
         });//This is for the style attribute for the path
-            
+                
      // Separate data into shapes based on gender
      // Square for Female
      // Circle for Male
@@ -164,37 +180,7 @@ d3.json("countries.geo.json").then(function(json) {
           .attr("cy", function(d) {
                 return projection([d.lon, d.lat])[1];})
           .attr("r", 2)
-          
-          //.style("fill", "black")
-//                 function(d) {
-//                    var typeOfGod = d.type;
-//                    if(typeOfGod === "Storm" ) {
-//                        return "yellow";}
-//                    else if(typeOfGod ==="Sky"){
-//                        return "#87CEFA";}
-//                    else if(typeOfGod === "Death") {
-//                        return "black";}
-//                    else if(typeOfGod === "Agriculture") {
-//                        return "#006300";}
-//                    else if(typeOfGod === "Motherhood") {
-//                        return "#99FF99";}
-//                    else if(typeOfGod === "War" ) {
-//                        return "#9e0e0e";}
-//                    else if(typeOfGod === "Moon") {
-//                        return "white";}
-//                    else if(typeOfGod === "Sun") {
-//                        return "orange";}
-//                    else if(typeOfGod === "Love") {
-//                        return "#ff99ff";}
-//                    else if(typeOfGod ===  "Wisdom") {
-//                        return "#9900ff";}
-//                    else if(typeOfGod === "Sea") {
-//                        return "blue";}
-//                      
-//                    else{
-//                        return "grey";}
-//                })//These brackets match to the style for circles and end the selectALL()
-        
+    
          // Add tooltip so that it appears over mouseover on the circle
          .on('mouseover', function(d) {
 //            tooltip.transition()
@@ -205,12 +191,6 @@ d3.json("countries.geo.json").then(function(json) {
                    .style("fill", "black")
                    .style("opacity", ".9");
             // Format the tooltip
-//            tooltip.html("<img src = " + d.picture+">" + "<br>" + "Name: " + d.name + "<br>"
-//                         + "Type: " + d.type + "<br>" 
-//                        + "Culture: " + d.culture + "<br>" + "Region: " + d.location + "<br>"
-//                        + "Gender: " + d.gender + "<br>" + "Species: " + d.species + "<br>" +
-//                        '<a href = "' + d.linkwik + '">' + "Wikipedia Source" + "</a>" + "<br>" +
-//                        '<a href = "' + d.linkgc + '">' + "GodChecker" + "</a>")
             tooltip.html(
              "<table>" 
              + "<tr>" + "<td style= 'text-align:left;'> Name </td>" 
@@ -251,36 +231,7 @@ d3.json("countries.geo.json").then(function(json) {
                 return projection([d.lon, d.lat])[1];})
           .attr("width", "4")
           .attr("height", "4")
-          
-          //.style("fill", "black")
-//                 function(d) {
-//                    var typeOfGod = d.type;
-//                    if(typeOfGod === "Storm" ) {
-//                        return "yellow";}
-//                    else if(typeOfGod ==="Sky"){
-//                        return "#87CEFA";}
-//                    else if(typeOfGod === "Death") {
-//                        return "black";}
-//                    else if(typeOfGod === "Agriculture") {
-//                        return "#006300";}
-//                    else if(typeOfGod === "Motherhood") {
-//                        return "#99FF99";}
-//                    else if(typeOfGod === "War" ) {
-//                        return "#9e0e0e";}
-//                    else if(typeOfGod === "Moon") {
-//                        return "white";}
-//                    else if(typeOfGod === "Sun") {
-//                        return "orange";}
-//                    else if(typeOfGod === "Love") {
-//                        return "#ff99ff";}
-//                    else if(typeOfGod ===  "Wisdom") {
-//                        return "#9900ff";}
-//                    else if(typeOfGod === "Sea") {
-//                        return "blue";}
-//                      
-//                    else{
-//                        return "grey";}
-//                })//These brackets match to the style for circles and end the selectALL()
+            
          // Add tooltip so that it appears over mouseover on the circle
          .on('mouseover', function(d) {
 //            tooltip.transition()
@@ -291,12 +242,6 @@ d3.json("countries.geo.json").then(function(json) {
                    .style("fill", "black")
                    .style("opacity", ".9");
             // Format the tooltip
-//            tooltip.html("<img src = " + d.picture+">" + "<br>" + "Name: " + d.name + "<br>"
-//                         + "Type: " + d.type + "<br>" 
-//                        + "Culture: " + d.culture + "<br>" + "Region: " + d.location + "<br>"
-//                        + "Gender: " + d.gender + "<br>" + "Species: " + d.species + "<br>" +
-//                        '<a href = "' + d.linkwik + '">' + "Wikipedia Source" + "</a>" + "<br>" +
-//                        '<a href = "' + d.linkgc + '">' + "GodChecker" + "</a>")
             tooltip.html(
              "<table>" 
              + "<tr>" + "<td style= 'text-align:left;'> Name </td>" 
@@ -325,8 +270,6 @@ d3.json("countries.geo.json").then(function(json) {
                .duration(500)
                .style("opacity", 0);
            });
-    
-            
             
     });//These bracets are for d3.csv line above
 });//These brackets are for d3.json line
@@ -358,176 +301,7 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
-
-//Legend
-//  svg.append("rect")
-//        .attr("x", width-220)
-//        .attr("y", height-190)
-//        .attr("width", 200)
-//        .attr("rx", 10)
-//        .attr("ry", 10)
-//        .style("opacity",0.5)
-//        .attr("height", 180)
-//        .attr("fill", "lightgrey")
-//        .style("stroke-size", "1px");
-//
-//    svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-175)
-//        .style("fill", "#87CEFA");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-172)
-//        .style("text-anchor", "end")
-//        .text("Sky");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-40)
-//        .attr("cy", height-175)
-//        .style("fill", "yellow");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -50)
-//        .attr("y", height-172)
-//        .style("text-anchor", "end")
-//        .text("Storm");
-//
-//
-//    svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-150)
-//        .style("fill", "white");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-150)
-//        .style("text-anchor", "end")
-//        .text("Moon");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-40)
-//        .attr("cy", height-150)
-//        .style("fill", "orange");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -50)
-//        .attr("y", height-150)
-//        .style("text-anchor", "end")
-//        .text("Sun");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-125)
-//        .style("fill", "#006300");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-125)
-//        .style("text-anchor", "end")
-//        .text("Agriculture");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-40)
-//        .attr("cy", height-125)
-//        .style("fill", "blue");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -50)
-//        .attr("y", height-125)
-//        .style("text-anchor", "end")
-//        .text("Sea");
-//
-//  svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-100)
-//        .style("fill", "#9e0e0e");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-100)
-//        .style("text-anchor", "end")
-//        .text("War");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-40)
-//        .attr("cy", height-100)
-//        .style("fill", "#ff99ff");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -50)
-//        .attr("y", height-100)
-//        .style("text-anchor", "end")
-//        .text("Love");
-//
-//  svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-75)
-//        .style("fill", "#99FF99");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-75)
-//        .style("text-anchor", "end")
-//        .text("Motherhood");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-40)
-//        .attr("cy", height-75)
-//        .style("fill", "black");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -50)
-//        .attr("y", height-75)
-//        .style("text-anchor", "end")
-//        .text("Death");
-//
-//   svg.append("circle")
-//        .attr("r", 5)
-//        .attr("cx", width-120)
-//        .attr("cy", height-50)
-//        .style("fill", "#9900ff");
-//
-//    svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -130)
-//        .attr("y", height-50)
-//        .style("text-anchor", "end")
-//        .text("Wisdom");
-
-//     svg.append("text")
-//        .attr("class", "label")
-//        .attr("x", width -120)
-//        .attr("y", height-15)
-//        .style("text-anchor", "middle")
-//        .style("fill", "black") 
-//        .attr("font-size", "20px")
-//        .text("Type of Diety");   
-
 // Legend 
-
-
-
  svg.append("rect")
         .attr("x", width-200)
         .attr("y", height-120)
@@ -695,7 +469,7 @@ function clicked(d) {
 
      svg.append("text")
             .attr("class", "label")
-            .attr("x", width -1230)
+            .attr("x", width -1235)
             .attr("y", height-60)
             .style("text-anchor", "middle")
             .style("fill", "black") 
