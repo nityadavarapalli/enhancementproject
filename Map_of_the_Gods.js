@@ -31,30 +31,30 @@ var projection = d3.geoMercator()
     .scale((width) / 1.9 / Math.PI)
     .translate([width / 2, height / 1.9]);
 
-//Will be used to create the path
+// Will be used to create the path
 var path = d3.geoPath().projection(projection);
 
-//Creates zoom variable for later pan/zoom functionality
+// Creates zoom variable for later pan/zoom functionality
 var zoom = d3.zoom().scaleExtent([1,8]).on("zoom", zoomed);
 
 
-//Create the canvas
+// Create the canvas
 var svg = d3.select("#container")
 	        .append("svg")
 	        .attr("width", width)
 	        .attr("height", height)
             .append("g");
 
-//Create secondary layer to canvas SVG
+// Create secondary layer to canvas SVG
 var g = svg.append("g");
 
-//Create tooltip to be used for information on circles
+// Create tooltip to be used for information on shapes and countries
 var tooltip = d3.select("body")
                 .append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 
-//Call zoom and further functions
+// Call zoom and further functions
 svg.call(zoom);
 
 //Function to zoom and transform the page
@@ -117,7 +117,8 @@ d3.json("countries.geo.json").then(function(json) {
          .enter()
          .append("path")
          .attr("d", path)
-         // When a region is clicked on, call the clicked function to zoom in. 
+            
+         // When a region is clicked on, call the clicked function to zoom in to the region. 
          .on("click", clicked)
             
          // set the boundary color in between countries
@@ -154,8 +155,25 @@ d3.json("countries.geo.json").then(function(json) {
                 // light grey 
 //                return "#D3D3D3";}
                 return "rgb(213,222,217)";}
-        });//This is for the style attribute for the path
-                
+        })//This is for the style attribute for the path
+        // Add a tooltip to show the name of the country.
+        .on('mouseover', function(d) {
+            tooltip.transition()
+                   .duration(100)
+                   .style("background", "black")
+                   .style("opacity", ".9");
+            // Format the tooltip
+            tooltip.html("Modern Name of Country: " + d.properties.name)
+                   .style("left", (d3.event.pageX ) + "px")
+                   .style("top", (d3.event.pageY) + "px")})
+            // Deactivate the tooltip
+           .on("mouseout", function(d) {
+             tooltip.transition()
+               .duration(500)
+               .style("opacity", 0);
+           });  
+            
+            
      // Separate data into shapes based on gender
      // Square for Female
      // Circle for Male
@@ -164,9 +182,11 @@ d3.json("countries.geo.json").then(function(json) {
 			.enter()
             
             // Add Wikipedia Link to circle or square object
+            // When the object is clicked, the user will be taken to the corresponding Wikipedia page.
             .append("a")
             .attr("xlink:href", function(d) {return d.linkwik;})
             
+            // Assign shape to corresponding gender.
 			.append(function(d){
                  console.log(d);
                  if (d.gender === "Female") {
@@ -179,9 +199,6 @@ d3.json("countries.geo.json").then(function(json) {
             
      // Create all of the circles 
         g.selectAll("circle")
-         //.data(data)
-         //.enter()
-         //.append("circle")
          .attr("class", "circle")
          .attr("cx", function(d) {
                 return projection([d.lon,d.lat])[0];})
@@ -190,9 +207,6 @@ d3.json("countries.geo.json").then(function(json) {
           .attr("r", 2)
          // Add tooltip so that it appears over mouseover on the circle
          .on('mouseover', function(d) {
-//            tooltip.transition()
-//                   .duration(400)
-//                   .style("opacity", 0);
             tooltip.transition()
                    .duration(100)
                    .style("fill", "black")
@@ -228,9 +242,6 @@ d3.json("countries.geo.json").then(function(json) {
             
         // Create all of the Squares
         g.selectAll("rect")
-//         .data(data)
-//         .enter()
-//         .append("rect")
          .attr("class", "rect")
          .attr("x", function(d) {
                 return projection([d.lon,d.lat])[0];})
@@ -241,9 +252,6 @@ d3.json("countries.geo.json").then(function(json) {
             
          // Add tooltip so that it appears over mouseover on the circle
          .on('mouseover', function(d) {
-//            tooltip.transition()
-//                   .duration(400)
-//                   .style("opacity", 0);
             tooltip.transition()
                    .duration(100)
                    .style("fill", "black")
@@ -308,7 +316,7 @@ function clicked(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
-// Legend 
+// Legend for Cultures
  svg.append("rect")
         .attr("x", width-200)
         .attr("y", height-120)
@@ -318,7 +326,6 @@ function clicked(d) {
         .style("opacity",0.5)
         .attr("height", 120)
         .attr("fill", "lightgrey")
-//        .attr("fill", "#696969")
         .style("stroke-size", "1px");
 
     svg.append("circle")
@@ -326,7 +333,6 @@ function clicked(d) {
         .attr("cx", width-120)
         .attr("cy", height-75)
         .style("fill", "#85ad33");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -130)
@@ -339,7 +345,6 @@ function clicked(d) {
         .attr("cx", width-40)
         .attr("cy", height-75)
         .style("fill", "BE79DF");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -50)
@@ -352,7 +357,6 @@ function clicked(d) {
         .attr("cx", width-120)
         .attr("cy", height-55)
         .style("fill", "194719");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -130)
@@ -365,7 +369,6 @@ function clicked(d) {
         .attr("cx", width-40)
         .attr("cy", height-55)
         .style("fill", "ff5050");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -50)
@@ -378,7 +381,6 @@ function clicked(d) {
         .attr("cx", width-120)
         .attr("cy", height-35)
         .style("fill", "#0A97B0");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -130)
@@ -391,7 +393,6 @@ function clicked(d) {
         .attr("cx", width-40)
         .attr("cy", height-35)
         .style("fill", "ff9900");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -50)
@@ -404,7 +405,6 @@ function clicked(d) {
         .attr("cx", width-120)
         .attr("cy", height-15)
         .style("fill", "#035AA6");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -130)
@@ -417,7 +417,6 @@ function clicked(d) {
         .attr("cx", width-40)
         .attr("cy", height-15)
         .style("fill", "#c90e0e");
-
     svg.append("text")
         .attr("class", "label")
         .attr("x", width -50)
@@ -434,7 +433,7 @@ function clicked(d) {
         .attr("font-size", "20px")
         .text("Culture"); 
 
-// Legend for symbols
+// Legend for Shapes
  svg.append("rect")
         .attr("x", width-1300)
         .attr("y", height-100)
@@ -452,7 +451,6 @@ function clicked(d) {
             .attr("cy", height-40)
             .attr("fill", "#E8E4E1")
             .attr("stroke", "black");
-
      svg.append("text")
             .attr("class", "label")
             .attr("x", width -1240)
