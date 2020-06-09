@@ -15,6 +15,9 @@ https://bl.ocks.org/denisemauldin/1cacff932f3868aad2d7815384a0a6fa
 
 Add Link to Objects
 http://bl.ocks.org/d3noob/8150631
+
+Additions:
+Look of Map, Format of tooltips, Click to Zoom, Different Shapes, Hover over Boundary Lines, Added Reference to Link
 ----------------------------------------------------------------------*/ 
 
 /*jslint browser: true*/
@@ -36,7 +39,6 @@ var path = d3.geoPath().projection(projection);
 
 // Creates zoom variable for later pan/zoom functionality
 var zoom = d3.zoom().scaleExtent([1,8]).on("zoom", zoomed);
-
 
 // Create the canvas
 var svg = d3.select("#container")
@@ -184,9 +186,10 @@ d3.json("countries.geo.json").then(function(json) {
             // Add Wikipedia Link to circle or square object
             // When the object is clicked, the user will be taken to the corresponding Wikipedia page.
             .append("a")
-            .attr("xlink:href", function(d) {return d.linkwik;})
+            .attr("href", function(d) {return d.linkwik;})
             
             // Assign shape to corresponding gender.
+            // document.createElementNS() allows the user to create an element. The link is an XML namespace and the string specifies the type of element to be created.
 			.append(function(d){
                  console.log(d);
                  if (d.gender === "Female") {
@@ -294,6 +297,7 @@ d3.json("countries.geo.json").then(function(json) {
 function clicked(d) {
   var x, y, k;
 
+  // Check if map is centered on clicked point
   if (d && centered !== d) {
     var centroid = path.centroid(d);
     x = centroid[0];
@@ -310,6 +314,7 @@ function clicked(d) {
   g.selectAll("path")
       .classed("active", centered && function(d) { return d === centered; });
 
+  // Scale Map
   g.transition()
       .duration(750)
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
